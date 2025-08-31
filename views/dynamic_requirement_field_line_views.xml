@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dynamic Requirement Field Line Tree View -->
+    <record id="dynamic_requirement_field_line_view_tree" model="ir.ui.view">
+        <field name="name">dynamic.requirement.field.line.tree</field>
+        <field name="model">dynamic.requirement.field.line</field>
+        <field name="arch" type="xml">
+            <tree string="Dynamic Requirement Field Lines">
+                <field name="sequence" widget="handle"/>
+                <field name="requirement_mandatory_project"/>
+                <field name="stage_id"/>
+                <field name="mandatory_fields" widget="many2many_tags" domain="[('model', '=', 'project.project')]"/>
+                <field name="custom_warning_message"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Dynamic Requirement Field Line Form View -->
+    <record id="dynamic_requirement_field_line_view_form" model="ir.ui.view">
+        <field name="name">dynamic.requirement.field.line.form</field>
+        <field name="model">dynamic.requirement.field.line</field>
+        <field name="arch" type="xml">
+            <form string="Dynamic Requirement Field Line">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="requirement_mandatory_project"/>
+                            <field name="stage_id"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="custom_warning_message" placeholder="Field %s is mandatory"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Mandatory Fields">
+                        <field name="mandatory_fields" widget="many2many_tags" domain="[('model', '=', 'project.project')]"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Dynamic Requirement Field Line Search View -->
+    <record id="dynamic_requirement_field_line_view_search" model="ir.ui.view">
+        <field name="name">dynamic.requirement.field.line.search</field>
+        <field name="model">dynamic.requirement.field.line</field>
+        <field name="arch" type="xml">
+            <search string="Search Dynamic Requirement Field Lines">
+                <field name="requirement_mandatory_project"/>
+                <field name="stage_id"/>
+                <field name="custom_warning_message"/>
+                <group expand="0" string="Group By">
+                    <filter string="Requirement" name="group_requirement" context="{'group_by': 'requirement_mandatory_project'}"/>
+                    <filter string="Stage" name="group_stage" context="{'group_by': 'stage_id'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_dynamic_requirement_field_line" model="ir.actions.act_window">
+        <field name="name">Dynamic Requirement Field Lines</field>
+        <field name="res_model">dynamic.requirement.field.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="dynamic_requirement_field_line_view_tree"/>
+        <field name="search_view_id" ref="dynamic_requirement_field_line_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No dynamic requirement field lines found. Let's create one!
+            </p>
+            <p>
+                Create dynamic requirement field lines to define mandatory fields for specific stages.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <!-- Requirement Field Lines menu -->
+    <menuitem id="menu_dynamic_requirement_field_line"
+              name="Requirement Field Lines"
+              parent="portcities_construction_site_mgmt.menu_requirements_config"
+              action="action_dynamic_requirement_field_line"
+              sequence="20"/>
+</odoo>

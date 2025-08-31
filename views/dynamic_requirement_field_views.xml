@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dynamic Requirement Field Tree View -->
+    <record id="dynamic_requirement_field_view_tree" model="ir.ui.view">
+        <field name="name">dynamic.requirement.field.tree</field>
+        <field name="model">dynamic.requirement.field</field>
+        <field name="arch" type="xml">
+            <tree string="Requirements">
+                <field name="name"/>
+                <field name="type"/>
+                <field name="company_id"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Dynamic Requirement Field Form View -->
+    <record id="dynamic_requirement_field_view_form" model="ir.ui.view">
+        <field name="name">dynamic.requirement.field.form</field>
+        <field name="model">dynamic.requirement.field</field>
+        <field name="arch" type="xml">
+            <form string="Requirement">
+                <sheet>
+                    <div class="o_row">
+                        <div> 
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="Requirement"/></h1>
+                        </div>
+                        <div>
+                            <field name="active" widget="boolean_toggle" class="h2 oe_right"/>                    
+                        </div>
+                    </div>
+                    <div>
+                        <h2><field name="type" placeholder="Type" no_label="1"/></h2>
+                    </div>
+
+                    <group> 
+                        <field name="company_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Conditions">
+                            <field name="mandatory_project_line">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="stage_id" string="Site Stage"/>
+                                    <field name="mandatory_fields" widget="many2many_tags" string="Mandatory Fields" domain="[('model', '=', 'project.project')]"/>
+                                    <field name="custom_warning_message" string="Custom Warn. Msg." placeholder="Field %s is mandatory"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Dynamic Requirement Field Search View -->
+    <record id="dynamic_requirement_field_view_search" model="ir.ui.view">
+        <field name="name">dynamic.requirement.field.search</field>
+        <field name="model">dynamic.requirement.field</field>
+        <field name="arch" type="xml">
+            <search string="Search Dynamic Requirement Fields">
+                <field name="name"/>
+                <field name="type"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Sites" name="sites" domain="[('type', '=', 'site')]"/>
+                <filter string="Milestones" name="milestones" domain="[('type', '=', 'milestone')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Type" name="group_type" context="{'group_by': 'type'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_dynamic_requirement_field" model="ir.actions.act_window">
+        <field name="name">Requirements</field>
+        <field name="res_model">dynamic.requirement.field</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="dynamic_requirement_field_view_tree"/>
+        <field name="search_view_id" ref="dynamic_requirement_field_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No requirements found. Let's create one!
+            </p>
+            <p>
+                Create requirements to define mandatory fields for different stages.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <!-- Add Requirements menu under Configuration -->
+    <menuitem id="menu_requirements_config"
+              name="Requirements"
+              parent="project.menu_project_config"
+              sequence="15"/>
+
+    <!-- Requirement Fields menu -->
+    <menuitem id="menu_dynamic_requirement_field_main"
+              name="Requirements"
+              parent="menu_requirements_config"
+              action="action_dynamic_requirement_field"
+              sequence="10"/>
+</odoo>
