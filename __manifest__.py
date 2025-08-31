@@ -16,7 +16,9 @@
     'author': 'Jhon Garcia',
     'maintainer': 'Jhon Garcia',
     'depends': ['project'],
-    'data': [],
+    'data': [
+        'views/project_views.xml',
+    ],
     'installable': True,
     'auto_install': False,
     'application': False,

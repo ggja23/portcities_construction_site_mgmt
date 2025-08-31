@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   
+    <!-- Case 1 : 3a, 3b, 3c
+     Override the main action to use list view as default -->
+    <record id="project.open_view_project_all" model="ir.actions.act_window">
+        <field name="name">Sites</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">tree,kanban,form,calendar,activity</field>
+        <field name="view_id" ref="project_project_view_tree_site"/>
+        <field name="search_view_id" ref="project.view_project_project_filter"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No sites found. Let's create one!
+            </p><p>
+                Create sites to organize your milestones.
+            </p>
+        </field>
+    </record>
+</odoo>
