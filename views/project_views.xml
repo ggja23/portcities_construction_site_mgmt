@@ -13,6 +13,7 @@
                 <field name="deadline_date"/>
                 <field name="budget"/>
                 <field name="project_size"/>
+                <field name="requirement_id"/>
                 <field name="stage_id"/>
                 <field name="task_count"/>
                 <field name="company_id" groups="base.group_multi_company"/>
@@ -21,7 +22,7 @@
     </record>
 
     
-    <!-- Case 1 : Item 3b, 3c
+    <!-- Case 1 : Item 3b, 3c and Case 5
      Override the main action to use list view as default -->
     <record id="project.open_view_project_all" model="ir.actions.act_window">
         <field name="name">Sites</field>
@@ -68,6 +69,7 @@
                 <field name="deadline_date"/>
                 <field name="budget"/>
                 <field name="project_size"/>
+                <field name="requirement_id"/>
             </xpath>
         </field>
     </record>
